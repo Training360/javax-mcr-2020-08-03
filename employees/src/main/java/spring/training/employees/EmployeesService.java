@@ -35,4 +35,10 @@ public class EmployeesService {
     private EmployeeDto mapToDto(Employee e) {
         return modelMapper.map(e, EmployeeDto.class);
     }
+
+    public EmployeeDto findEmployeeById(long id) {
+        return employees.stream().filter(e -> e.getId() == id).map(this::mapToDto)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Employee not found with id: " + id));
+    }
 }

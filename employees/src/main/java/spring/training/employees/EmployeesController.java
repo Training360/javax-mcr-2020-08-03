@@ -2,10 +2,7 @@ package spring.training.employees;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,5 +19,10 @@ public class EmployeesController {
     public List<EmployeeDto> listEmployees(@RequestParam Optional<String> prefix) {
         log.info("List employees: {}", prefix);
         return employeesService.listEmployees(prefix);
+    }
+
+    @GetMapping("/{id}")
+    public EmployeeDto findEmployeeById(@PathVariable long id) {
+        return employeesService.findEmployeeById(id);
     }
 }
