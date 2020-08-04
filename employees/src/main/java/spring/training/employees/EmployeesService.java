@@ -41,4 +41,10 @@ public class EmployeesService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Employee not found with id: " + id));
     }
+
+    public EmployeeDto createEmployee(CreateEmployeeCommand command) {
+        var employee = new Employee(idGenerator.incrementAndGet(), command.getName());
+        employees.add(employee);
+        return mapToDto(employee);
+    }
 }

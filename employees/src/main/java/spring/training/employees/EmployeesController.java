@@ -2,6 +2,7 @@ package spring.training.employees;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,5 +25,11 @@ public class EmployeesController {
     @GetMapping("/{id}")
     public EmployeeDto findEmployeeById(@PathVariable long id) {
         return employeesService.findEmployeeById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmployeeDto createEmployee(@RequestBody CreateEmployeeCommand command) {
+        return employeesService.createEmployee(command);
     }
 }
