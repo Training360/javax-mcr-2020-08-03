@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +35,18 @@ public class EmployeesWebIT {
         ));
 
         mockMvc.perform(get("/api/employees"))
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[1].name", equalTo("John Smith")));
+    }
+
+    @Test
+    public void testListEmployeesWithException() throws Exception {
+        when(employeesService.listEmployees(any())).thenThrow(new IllegalArgumentException("List not allowed"));
+
+        assertThrows(NestedServletException.class, () ->
+        mockMvc.perform(get("/api/employees"))
+                .andDo(print()));
     }
 
 }
