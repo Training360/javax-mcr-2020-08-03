@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -56,19 +57,22 @@ public class EmployeesController {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Problem resolveException(NotFoundException nfe) {
+    public ResponseEntity<Problem> resolveException(NotFoundException nfe) {
         log.info("Not found");
-        return Problem.builder()
+        Problem problem = Problem.builder()
                 .withType(URI.create("employees/not-found"))
                 .withTitle("Not found")
                 .withStatus(Status.NOT_FOUND)
                 .withDetail(nfe.getMessage())
                 .build();
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                .body(problem);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity<Problem> handleValidationError(MethodArgumentNotValidException e) {
         List<Violation> violations = e.getBindingResult().getFieldErrors().stream()
                 .map((FieldError fe) -> new Violation(fe.getField(), fe.getDefaultMessage()))
@@ -81,7 +85,10 @@ public class EmployeesController {
                 .withDetail(e.getMessage())
                 .with("violations", violations)
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                .body(problem);
     }
 
 }
