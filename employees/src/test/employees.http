@@ -17,3 +17,16 @@ Accept: application/json
 {
   "name": "Jane Doe"
 }
+
+### Update employee
+
+PUT http://localhost:8080/api/employees/1
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "Jack Doe 2"
+}
+
+
+

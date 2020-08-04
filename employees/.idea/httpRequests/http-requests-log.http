@@ -1,6 +1,32 @@
 GET http://localhost:8080/api/employees
 Accept: application/json
 
+<> 2020-08-04T020556.200.json
+
+###
+
+PUT http://localhost:8080/api/employees/1
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "Jack Doe 2"
+}
+
+<> 2020-08-04T020548.200.json
+
+###
+
+GET http://localhost:8080/api/employees
+Accept: application/json
+
+<> 2020-08-04T020543.200.json
+
+###
+
+GET http://localhost:8080/api/employees
+Accept: application/json
+
 <> 2020-08-04T014311.200.json
 
 ###

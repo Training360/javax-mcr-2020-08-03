@@ -23,6 +23,7 @@ public class EmployeesController {
     }
 
     @GetMapping("/{id}")
+    // TODO mi van, ha az id null, nem adja meg?
     public EmployeeDto findEmployeeById(@PathVariable long id) {
         return employeesService.findEmployeeById(id);
     }
@@ -32,4 +33,10 @@ public class EmployeesController {
     public EmployeeDto createEmployee(@RequestBody CreateEmployeeCommand command) {
         return employeesService.createEmployee(command);
     }
+
+    @PutMapping("/{id}")
+    public EmployeeDto updateEmployee(@PathVariable long id, @RequestBody UpdateEmployeeCommand command) {
+        return employeesService.updateEmployee(id, command);
+    }
+
 }

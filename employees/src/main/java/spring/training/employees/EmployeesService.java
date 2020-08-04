@@ -47,4 +47,11 @@ public class EmployeesService {
         employees.add(employee);
         return mapToDto(employee);
     }
+
+    public EmployeeDto updateEmployee(long id, UpdateEmployeeCommand command) {
+        var employee = employees.stream().filter(e -> e.getId() == id).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + id));
+        employee.setName(command.getName());
+        return mapToDto(employee);
+    }
 }
