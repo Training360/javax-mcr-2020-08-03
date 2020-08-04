@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,10 @@ public class EmployeesService {
         this.modelMapper = modelMapper;
     }
 
-    public List<EmployeeDto> listEmployees() {
-        return employees.stream().map(this::mapToDto).collect(Collectors.toList());
+    public List<EmployeeDto> listEmployees(Optional<String> prefix) {
+        return employees.stream()
+                .filter(e -> prefix.isEmpty() || e.getName().startsWith(prefix.get()))
+                .map(this::mapToDto).collect(Collectors.toList());
     }
 
     private EmployeeDto mapToDto(Employee e) {
