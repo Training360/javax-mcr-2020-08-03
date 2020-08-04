@@ -1,5 +1,6 @@
 package spring.training.employees;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +19,17 @@ public class EmployeesService {
             new Employee(idGenerator.incrementAndGet(), "Jack Doe")
     )));
 
+    private ModelMapper modelMapper;
+
+    public EmployeesService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     public List<EmployeeDto> listEmployees() {
-        return employees.stream().map(e -> new EmployeeDto(e.getId(), e.getName())).collect(Collectors.toList());
+        return employees.stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    private EmployeeDto mapToDto(Employee e) {
+        return modelMapper.map(e, EmployeeDto.class);
     }
 }
