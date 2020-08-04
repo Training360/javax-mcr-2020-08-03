@@ -1,5 +1,6 @@
 package spring.training.employees;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class EmployeesController {
     private EmployeesService employeesService;
 
     @GetMapping
+    @Operation(summary = "list employees", description = "List employees based on prefix")
     public List<EmployeeDto> listEmployees(@RequestParam Optional<String> prefix) {
         log.info("List employees: {}", prefix);
         return employeesService.listEmployees(prefix);
