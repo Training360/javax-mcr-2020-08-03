@@ -5,13 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -36,7 +40,7 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeDto createEmployee(@RequestBody CreateEmployeeCommand command) {
+    public EmployeeDto createEmployee(@Valid @RequestBody CreateEmployeeCommand command) {
         return employeesService.createEmployee(command);
     }
 
@@ -61,6 +65,23 @@ public class EmployeesController {
                 .withStatus(Status.NOT_FOUND)
                 .withDetail(nfe.getMessage())
                 .build();
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Problem> handleValidationError(MethodArgumentNotValidException e) {
+        List<Violation> violations = e.getBindingResult().getFieldErrors().stream()
+                .map((FieldError fe) -> new Violation(fe.getField(), fe.getDefaultMessage()))
+                .collect(Collectors.toList());
+
+        Problem problem = Problem.builder()
+                .withType(URI.create("employees/validation-error"))
+                .withTitle("Validation error")
+                .withStatus(Status.BAD_REQUEST)
+                .withDetail(e.getMessage())
+                .with("violations", violations)
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
     }
 
 }

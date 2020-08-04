@@ -33,5 +33,14 @@ Accept: application/json
 "name": "Jack Doe 2"
 }
 
+### Create employee with empty name
+
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": ""
+}
 
 
