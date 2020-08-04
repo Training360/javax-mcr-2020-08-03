@@ -1,3 +1,72 @@
+GET http://localhost:8080/api/employees/11111
+Accept: application/json
+
+<> 2020-08-04T024330.404.json
+
+###
+
+GET http://localhost:8080/api/employees/11111
+Accept: application/json
+
+<> 2020-08-04T024225.404.json
+
+###
+
+GET http://localhost:8080/api/employees/11111
+Accept: application/json
+
+<> 2020-08-04T023750.404.json
+
+###
+
+GET http://localhost:8080/api/employees/11111
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/employees/1000
+Accept: application/json
+
+<> 2020-08-04T023135.500.json
+
+###
+
+PUT http://localhost:8080/api/employees/12131
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "Jack Doe 2"
+}
+
+<> 2020-08-04T023007.500.json
+
+###
+
+PUT http://localhost:8080/api/employees/12131
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "Jack Doe 2"
+}
+
+<> 2020-08-04T022906.500.json
+
+###
+
+PUT http://localhost:8080/api/employees/12131
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "Jack Doe 2"
+}
+
+<> 2020-08-04T022841.500.json
+
+###
+
 GET http://localhost:8080/api/employees
 Accept: application/json
 

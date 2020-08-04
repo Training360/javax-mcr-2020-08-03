@@ -8,6 +8,11 @@ Accept: application/json
 GET http://localhost:8080/api/employees/1
 Accept: application/json
 
+### Find employee by id (not found)
+
+GET http://localhost:8080/api/employees/11111
+Accept: application/json
+
 ### Create employee
 
 POST http://localhost:8080/api/employees

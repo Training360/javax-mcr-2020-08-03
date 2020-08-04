@@ -39,7 +39,7 @@ public class EmployeesService {
     public EmployeeDto findEmployeeById(long id) {
         return employees.stream().filter(e -> e.getId() == id).map(this::mapToDto)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
     }
 
     public EmployeeDto createEmployee(CreateEmployeeCommand command) {
@@ -50,7 +50,7 @@ public class EmployeesService {
 
     public EmployeeDto updateEmployee(long id, UpdateEmployeeCommand command) {
         var employee = employees.stream().filter(e -> e.getId() == id).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Employee not found: " + id));
         employee.setName(command.getName());
         return mapToDto(employee);
     }
