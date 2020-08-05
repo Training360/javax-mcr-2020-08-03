@@ -3,6 +3,7 @@ package spring.training.employees;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,11 @@ public class EmployeesApplication {
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper()
 				.findAndRegisterModules();
+	}
+
+	@Bean
+	public InMemoryHttpTraceRepository traceRepository() {
+		return new InMemoryHttpTraceRepository();
 	}
 
 	public static void main(String[] args) {

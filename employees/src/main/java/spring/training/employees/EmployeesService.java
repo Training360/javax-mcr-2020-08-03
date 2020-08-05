@@ -25,10 +25,13 @@ public class EmployeesService {
 
     private EventStoreGateway eventStoreGateway;
 
-    public EmployeesService(EmployeesRepository employeesRepository, ModelMapper modelMapper, EventStoreGateway eventStoreGateway) {
+    private EventStoreJmsGateway eventStoreJmsGateway;
+
+    public EmployeesService(EmployeesRepository employeesRepository, ModelMapper modelMapper, EventStoreGateway eventStoreGateway, EventStoreJmsGateway eventStoreJmsGateway) {
         this.employeesRepository = employeesRepository;
         this.modelMapper = modelMapper;
         this.eventStoreGateway = eventStoreGateway;
+        this.eventStoreJmsGateway = eventStoreJmsGateway;
     }
 
     public List<EmployeeDto> listEmployees(Optional<String> prefix) {
@@ -57,12 +60,14 @@ public class EmployeesService {
         return mapToDto(employeesRepository.findById(id).orElseThrow(() -> new NotFoundException("Employee not found with id: " + id)));
     }
 
+    @Transactional
     public EmployeeDto createEmployee(CreateEmployeeCommand command) {
 //        var employee = new Employee(idGenerator.incrementAndGet(), command.getName());
         // employees.add(employee);
         var employee = new Employee(command.getName());
         employeesRepository.save(employee);
-        eventStoreGateway.sendEvent("Employee has created: " + employee.getName());
+//        eventStoreGateway.sendEvent("Employee has created: " + employee.getName());
+        eventStoreJmsGateway.sendMessage("Employee has created (JMS!!!!!): " + employee.getName());
         return mapToDto(employee);
     }
 

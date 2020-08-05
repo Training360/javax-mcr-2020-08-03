@@ -2,7 +2,6 @@
 
 GET http://localhost:8080/api/hello
 
-
 ### List employees
 
 GET http://localhost:8080/api/employees
@@ -48,4 +47,11 @@ Accept: application/json
   "name": ""
 }
 
+### Set log level
 
+POST http://localhost:8080/actuator/loggers/spring.training.employees
+Content-Type: application/json
+
+{
+  "configuredLevel": "INFO"
+}
