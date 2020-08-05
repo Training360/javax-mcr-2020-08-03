@@ -34,7 +34,6 @@ public class EmployeesController {
     }
 
     @GetMapping("/{id}")
-    // TODO mi van, ha az id null, nem adja meg?
     public EmployeeDto findEmployeeById(@PathVariable long id) {
         return employeesService.findEmployeeById(id);
     }

@@ -1,3 +1,8 @@
+### Hello
+
+GET http://localhost:8080/api/hello
+
+
 ### List employees
 
 GET http://localhost:8080/api/employees
