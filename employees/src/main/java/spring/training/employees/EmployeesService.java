@@ -33,8 +33,15 @@ public class EmployeesService {
 //        return employees.stream()
 //                .filter(e -> prefix.isEmpty() || e.getName().startsWith(prefix.get()))
 //                .map(this::mapToDto).collect(Collectors.toList());
-        return employeesRepository.findAll()
-                .stream().map(this::mapToDto).collect(Collectors.toList());
+        List<Employee> employees;
+        if (prefix.isEmpty()) {
+            employees = employeesRepository.findAll();
+
+        }
+        else {
+            employees = employeesRepository.findByPrefix(prefix.get() + "%");
+        }
+        return employees.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
     private EmployeeDto mapToDto(Employee e) {
