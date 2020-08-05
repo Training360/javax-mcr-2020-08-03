@@ -11,20 +11,23 @@ import java.time.LocalDateTime;
 @Service
 public class HelloService {
 
-//    private HelloConfig helloConfig;
+//    private HelloProperties helloProperties;
 //
-//    public HelloService(HelloConfig helloConfig) {
-//        this.helloConfig = helloConfig;
+//    public HelloService(HelloProperties helloProperties) {
+//        this.helloProperties = helloProperties;
 //    }
 
-    private Environment environment;
+    private String messagePrefix;
 
-    public HelloService(Environment environment) {
-        this.environment = environment;
+    private String messagePostfix;
+
+    public HelloService(@Value("${employees.hello.message-prefix}") String messagePrefix, @Value("${employees.hello.message-postfix}") String messagePostfix) {
+        this.messagePrefix = messagePrefix;
+        this.messagePostfix = messagePostfix;
     }
 
     public String sayHello(String name) {
-//        return String.format(helloConfig.getMessagePrefix() + " %s! (%s)" + helloConfig.getMessagePostfix(), name, LocalDateTime.now());
-        return String.format(environment.getProperty("employees.hello.messagePrefix") + " %s! (%s)" + environment.getProperty("employees.hello.messagePostfix"), name, LocalDateTime.now());
+//        return String.format(helloProperties.getMessagePrefix() + " %s! (%s)" + helloProperties.getMessagePostfix(), name, LocalDateTime.now());
+        return String.format(messagePrefix + " %s! (%s)" + messagePostfix, name, LocalDateTime.now());
     }
 }

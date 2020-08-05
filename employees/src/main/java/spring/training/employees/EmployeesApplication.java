@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-//@EnableConfigurationProperties(HelloConfig.class)
+//@EnableConfigurationProperties(HelloProperties.class)
 public class EmployeesApplication {
 
 //	@Bean
