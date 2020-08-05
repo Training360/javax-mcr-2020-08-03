@@ -29,7 +29,7 @@ public class EmployeesController {
     @GetMapping
     @Operation(summary = "list employees", description = "List employees based on prefix")
     public List<EmployeeDto> listEmployees(@RequestParam Optional<String> prefix) {
-        log.info("List employees: {}", prefix);
+        log.debug("List employees: {}", prefix);
         return employeesService.listEmployees(prefix);
     }
 
