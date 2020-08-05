@@ -2,7 +2,6 @@ package spring.training.employees;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 //import javax.transaction.Transactional;
@@ -24,9 +23,12 @@ public class EmployeesService {
 
     private ModelMapper modelMapper;
 
-    public EmployeesService(EmployeesRepository employeesRepository, ModelMapper modelMapper) {
+    private EventStoreGateway eventStoreGateway;
+
+    public EmployeesService(EmployeesRepository employeesRepository, ModelMapper modelMapper, EventStoreGateway eventStoreGateway) {
         this.employeesRepository = employeesRepository;
         this.modelMapper = modelMapper;
+        this.eventStoreGateway = eventStoreGateway;
     }
 
     public List<EmployeeDto> listEmployees(Optional<String> prefix) {
@@ -60,6 +62,7 @@ public class EmployeesService {
         // employees.add(employee);
         var employee = new Employee(command.getName());
         employeesRepository.save(employee);
+        eventStoreGateway.sendEvent("Employee has created: " + employee.getName());
         return mapToDto(employee);
     }
 
